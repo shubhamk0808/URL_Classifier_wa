@@ -14,8 +14,8 @@ from tokenizerUtility import sanitization
 def urlResult(url):
    
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    fullpath_m = os.path.join(dir_path, 'pickel_model_new.pkl')
-    fullpath_v = os.path.join(dir_path, 'pickel_vector_new.pkl')
+    fullpath_m = os.path.join(dir_path, 'pickel_model_1906.pkl')
+    fullpath_v = os.path.join(dir_path, 'pickel_vector_1906.pkl')
 
     vectorizer = pickle.load(open(fullpath_v,'rb'))
     tf_model = pickle.load(open(fullpath_m,'rb'))

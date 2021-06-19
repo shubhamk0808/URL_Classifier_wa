@@ -29,6 +29,17 @@ def generateFeatures(url):
     featLst, tblDict = url_feature_extraction.combineFeatures(url)
     return (np.array([featLst]), tblDict)
 
+def setWeight(xgbpr, tfpr):
+    xgw = 0.25
+    tfw = 0.95
+    if(xgbpr >= 0.9):
+        xgw = 0.95
+        tfw = 0.1
+    elif(tfpr >= 0.9):
+        tfw = 0.95
+        xgw = 0.1
+    return xgw, tfw
+        
 
 @app.route("/predict", methods=['POST'])
 def predict():    
@@ -47,9 +58,9 @@ def predict():
             xgbprob= model.predict_proba(features)[:,1][0]   #remove this 1
             tfprob = urlResult(input_url)   #remove this 2
         # tblDict['prediction'] = prediction        #uncomment this
-            
-            final_prediction = (((tfprob * 0.98) + (xgbprob * 0.4)) /(0.98 + 0.4))
-            if(final_prediction >= 0.55) :
+            (xgw, tfw) = setWeight(xgbprob, tfprob)
+            final_prediction = (((tfprob * tfw) + (xgbprob * xgw)) /(tfw + xgw))
+            if(final_prediction >= 0.60) :
                 prediction = 1
             else:
                 prediction = 0
