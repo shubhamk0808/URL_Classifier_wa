@@ -152,7 +152,9 @@ def findWebTraffic(url):
       return 1
     else:
       return 0
-  except:
+  except Exception as e:
+    print("Exception causd here")
+    print(e)
     return 0
 
 
