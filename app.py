@@ -74,7 +74,7 @@ def predict():
             tblDict['final_pred'] = round(final_prediction, 3)
         tblDict['prediction'] = prediction
                 
-        return render_template('result.html',data = tblDict)
+        return render_template('result.html',data = features)
 
     else:
         return render_template('result.html')
