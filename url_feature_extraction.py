@@ -140,9 +140,26 @@ import urllib.request
 from bs4 import BeautifulSoup
 import requests
 from googlesearch import search
-
+import lxml
 
 # Finding web traffic on the website 
+
+def findWebTraffic(url):
+  try:
+    url = urllib.parse.quote(url)
+    res = urllib.request.urlopen("http://data.alexa.com/data?cli=10&dat=s&url=" + url.strip())    
+    rank = BeautifulSoup(res.read(), "lxml").find("reach")["rank"]
+    rank = int(rank)
+    if (rank<100000):
+      return 1
+    else:
+      return 0
+  except Exception as e:
+    print("Exception causd here")
+    print(e)
+    return 0
+
+'''
 def findWebTraffic(url):
   try:
     url = urllib.parse.quote(url)
@@ -156,7 +173,7 @@ def findWebTraffic(url):
     print("Exception causd here")
     print(e)
     return 0
-
+'''
 
 # Finding age of the website 
 def findAge(domain):
