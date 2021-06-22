@@ -49,6 +49,7 @@ def predict():
         features, tblDict = generateFeatures(input_url)
         # sc = pickle.load(open('scaler.pkl','rb'))
         # prediction=model.predict(sc.transform(features))
+        
         if(tblDict['validURL'] == False):
             prediction = 2
         # elif(tblDict['validURL'] == 'Malicious'):
@@ -60,7 +61,7 @@ def predict():
         # tblDict['prediction'] = prediction        #uncomment this
             (xgw, tfw) = setWeight(xgbprob, tfprob)
             final_prediction = (((tfprob * tfw) + (xgbprob * xgw)) /(tfw + xgw))
-            if(final_prediction >= 0.60) :
+            if(final_prediction >= 0.70) :
                 prediction = 1
             else:
                 prediction = 0

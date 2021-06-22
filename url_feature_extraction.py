@@ -155,8 +155,9 @@ def findWebTraffic(url):
     else:
       return 0
   except Exception as e:
-    print("Exception causd here")
-    print(e)
+    # uncomment for debugging
+    # print("Exception causd here")
+    # print(e)
     return 0
 
 '''
@@ -176,6 +177,62 @@ def findWebTraffic(url):
 '''
 
 # Finding age of the website 
+
+def getDate(dateObj):
+  date = None
+
+  if (isinstance(dateObj,str)):
+    
+    try:
+      date = datetime.strptime(dateObj,'%Y-%m-%d')      
+    except:
+      date = None      
+
+  elif(type(dateObj) is list):
+    try:
+      date = dateObj[0].date()
+    except:
+      date = None      
+
+  elif(type(dateObj) is datetime):
+    try:
+      date = dateObj.date()
+    except:
+      date = None
+
+  elif(dateObj is None):
+    date = None
+  
+  return date
+
+
+def findAge(domain):
+  if(domain ==""):    
+    return(0, None, None)
+    
+  creation_date = domain.creation_date
+  expiration_date = domain.expiration_date
+
+  creation_date = getDate(creation_date)
+  expiration_date = getDate(expiration_date)
+
+  # print("expiration date = " , expiration_date)
+  # print("creation date = ", creation_date)
+
+  if((expiration_date is None) or (creation_date is None)):
+    return(0, None, None)
+
+  lifetime = abs((expiration_date - creation_date).days)
+  # print(lifetime)
+  #lifetime = 1900
+
+  if ((lifetime//30) < 12):
+    lt = 0
+  else:
+    lt = 1
+  return (lt, creation_date, expiration_date)
+
+'''
 def findAge(domain):
   if(domain ==""):    
     return(0, None, None)
@@ -206,6 +263,8 @@ def findAge(domain):
     lt = 1
   return (lt, creation_date, expiration_date)
 
+'''
+
 # 16. Finding DNS record of the URL 
 def domainInfo(url):
   global dmn
@@ -226,13 +285,14 @@ def domainInfo(url):
       dmn = domain.domain_name
     elif(domain.domain_name is None):
       dmn = None
+      validURL_who = False
 
     # dmn = domain.domain_name
     
   except Exception as e:
     validURL_who = False
-    print("Error caused here")
-    print(e)
+    # print("Error caused here")
+    # print(e)
     dmn = None
     foundDNS = 0
   
@@ -292,6 +352,7 @@ def getResponse(url):
     print(response)
     return response
   except requests.ConnectionError as exception:
+    print(exception)
     if('11002' in str(exception)):
       validURL_res = False
       # tableDict['validURL'] = 'Malicious'  
@@ -300,7 +361,8 @@ def getResponse(url):
       # tableDict['validURL'] = 'False'
     response = ""
     return response
-  except:
+  except exception as e:
+    print(e)
     validURL_res = False
     # tableDict['validURL'] = 'False'
     response = ""
@@ -358,6 +420,9 @@ def combineFeatures(url):
     validIP = False
 	
   tableDict['ipadd'] = ipad
+  print(validURL_who)
+  print(validURL_res)
+  print(validIP)
   tableDict['validURL'] = (validURL_who or validURL_res or validIP)
   return(features, tableDict)
 
