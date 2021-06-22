@@ -64,7 +64,7 @@ def predict():
                 prediction = 1
             else:
                 prediction = 0
-            # if(np.mean([xgbprob, tfprob]) >= 0.6):
+            # if(np.mean([xgbprob, tfprob]) >= 0.7):
             #     prediction = 1
             # else:
             #     prediction = 0

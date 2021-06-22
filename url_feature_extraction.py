@@ -351,9 +351,13 @@ def combineFeatures(url):
   
   try:
     ipad = socket.gethostbyname(dmn)
+	validIP = True
   except:
     ipad = None
+	validIP = False
+	
   tableDict['ipadd'] = ipad
+  tableDict['validURL'] = (validURL_who or validURL_res or validIP)
   return(features, tableDict)
 
 # url = "newenglandvan.com/wp-admin/c400/verify/index.html"
