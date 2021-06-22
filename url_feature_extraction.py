@@ -347,14 +347,14 @@ def combineFeatures(url):
   tableDict['expiration_date'] = expd
   tableDict['domain'] = dmn
   tableDict['length'] = lengthURL
-  tableDict['validURL'] = (validURL_who or validURL_res)
-  
+  # tableDict['validURL'] = (validURL_who or validURL_res)
+
   try:
     ipad = socket.gethostbyname(dmn)
-	validIP = True
+    validIP = True
   except:
     ipad = None
-	validIP = False
+    validIP = False
 	
   tableDict['ipadd'] = ipad
   tableDict['validURL'] = (validURL_who or validURL_res or validIP)
