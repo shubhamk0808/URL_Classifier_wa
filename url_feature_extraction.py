@@ -289,6 +289,7 @@ def getResponse(url):
     validURL_res = True
     # tableDict['validURL'] = 'True'
     response = requests.get(url, timeout = 3)
+    print(response)
     return response
   except requests.ConnectionError as exception:
     if('11002' in str(exception)):
